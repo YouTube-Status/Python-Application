@@ -56,6 +56,14 @@ def write_config(token, active, multi, active_tab, title, url, log_data=False, n
     if not path.exists(directory_path):
         return
 
+    new_title = ""
+    for i in range(len(title)):
+        if len(f"{new_title}{title[i]}".encode()) < 126:
+            new_title = f"{new_title}{title[i]}"
+        else:
+            new_title = f"{new_title}..."
+            break
+
     if not new:
         status_ini = read_config()
         if status_ini:
@@ -73,7 +81,7 @@ def write_config(token, active, multi, active_tab, title, url, log_data=False, n
             status_title = "null"
             status_url = "null"
 
-        if token == status_token and active == status_active and multi == status_multi and active_tab == status_active_tab and title == status_title and url == status_url:
+        if token == status_token and active == status_active and multi == status_multi and active_tab == status_active_tab and new_title == status_title and url == status_url:
             return
 
     config_ini = configparser.ConfigParser()
